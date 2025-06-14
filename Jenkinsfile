@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Pull Source Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/devinovitasari/landing-page-devops.git'
+                git branch: 'main', url: 'https://github.com/Arumrahma20/landing-page-devops11.git'
             }
         }
 
