@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Pull Source Code') {
+        stage('Pull Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/Arumrahma20/landing-page-devops11.git'
             }
@@ -10,22 +10,19 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t landing-page:prod .'
+                sh 'docker build -t landing-page:latest .'
             }
         }
 
-        stage('Stop & Remove Old Container') {
+        stage('Stop Old Container') {
             steps {
-                sh '''
-                    docker stop landing-page || true
-                    docker rm landing-page || true
-                '''
+                sh 'docker rm -f landing-page || true'
             }
         }
 
-        stage('Deploy Container') {
+        stage('Run New Container') {
             steps {
-                sh 'docker run -d -p 80:80 --name landing-page landing-page:prod'
+                sh 'docker run -d --name landing-page -p 80:80 -v /home/devops/html:/usr/share/nginx/html landing-page:latest'
             }
         }
     }
